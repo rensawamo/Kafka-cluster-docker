@@ -1,0 +1,60 @@
+services:
+  broker-1:
+    container_name: broker-1
+    image: docker:20-dind
+    privileged: true
+    volumes:
+      - ./kafka/broker-1:/src
+    networks:
+      - my_network
+
+  broker-2:
+    container_name: broker-2
+    image: docker:20-dind
+    privileged: true
+    volumes:
+      - ./kafka/broker-2:/src
+    depends_on:
+      - broker-1
+    networks:
+      - my_network
+
+  broker-3:
+    container_name: broker-3
+    image: docker:20-dind
+    privileged: true
+    volumes:
+      - ./kafka/broker-3:/src
+    depends_on:
+      - broker-2
+    networks:
+      - my_network
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: docker:20-dind
+    privileged: true
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./kafka/ui:/src
+    depends_on:
+      - broker-3
+    networks:
+      - my_network
+
+  cli:
+    image: confluentinc/cp-kafka:5.5.1
+    container_name: kafka-cli
+    depends_on:
+      - broker-1
+      - broker-2
+      - broker-3
+    entrypoint: /bin/sh
+    tty: true
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge

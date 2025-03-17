@@ -1,0 +1,12 @@
+services:
+  cp-kafka:
+    platform: linux/x86_64
+    image: confluentinc/cp-kafka:5.5.1
+    container_name: kafka-${KAFKA_BROKER_ID:?KAFKA_BROKER_ID not defined}
+    ports:
+      - "9092:9092"
+    environment:
+      TZ: Asia/Tokyo
+      KAFKA_BROKER_ID: ${KAFKA_BROKER_ID:?KAFKA_BROKER_ID not defined}
+      KAFKA_ZOOKEEPER_CONNECT: ${KAFKA_ZOOKEEPER_CONNECT:?KAFKA_ZOOKEEPER_CONNECT not defined}
+      KAFKA_ADVERTISED_LISTENERS: ${KAFKA_ADVERTISED_LISTENERS:?KAFKA_ADVERTISED_LISTENERS not defined}
