@@ -55,7 +55,7 @@ $ docker exec -it kafka-cli /bin/bash
 ```
 
 ```sh
---broker-list broker-1:9092 --topic post-likes
+kafka-console-producer --broker-list broker-1:9092 --topic post-likes
 >test01
 >
 ```

@@ -44,11 +44,10 @@ services:
       - my_network
 
   cli:
+    platform: linux/x86_64
     image: confluentinc/cp-kafka:5.5.1
     container_name: kafka-cli
-    depends_on:
-      - broker-1
-      - broker-2
+    depends_on: 
       - broker-3
     entrypoint: /bin/sh
     tty: true
