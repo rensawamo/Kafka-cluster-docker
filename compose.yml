@@ -7,6 +7,8 @@ services:
       - ./kafka/broker-1:/src
     networks:
       - my_network
+    ports:
+      - "9093:9093"
 
   broker-2:
     container_name: broker-2
@@ -14,10 +16,10 @@ services:
     privileged: true
     volumes:
       - ./kafka/broker-2:/src
-    depends_on:
-      - broker-1
     networks:
       - my_network
+    ports:
+      - "9094:9094"
 
   broker-3:
     container_name: broker-3
@@ -25,10 +27,10 @@ services:
     privileged: true
     volumes:
       - ./kafka/broker-3:/src
-    depends_on:
-      - broker-2
     networks:
       - my_network
+    ports:
+      - "9095:9095"
 
   kafka-ui:
     container_name: kafka-ui
@@ -39,7 +41,7 @@ services:
     volumes:
       - ./kafka/ui:/src
     depends_on:
-      - broker-3
+      - broker-1
     networks:
       - my_network
 
@@ -47,8 +49,8 @@ services:
     platform: linux/x86_64
     image: confluentinc/cp-kafka:5.5.1
     container_name: kafka-cli
-    depends_on: 
-      - broker-3
+    depends_on:
+      - broker-1
     entrypoint: /bin/sh
     tty: true
     networks:

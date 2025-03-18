@@ -2,14 +2,12 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"math/rand"
 	"os"
 	"time"
 
 	"github.com/IBM/sarama"
-	"github.com/joho/godotenv"
 )
 
 type Message struct {
@@ -19,20 +17,8 @@ type Message struct {
 }
 
 func main() {
-	error := godotenv.Load()
-	if error != nil {
-		log.Fatalf("Error loading .env file")
-	}
-	broker1 := os.Getenv("BROKER1")
-	broker2 := os.Getenv("BROKER2")
-	broker3 := os.Getenv("BROKER3")
+	brokers := []string{"172.18.0.2:9093", "172.18.0.3:9094", "172.18.0.4:9095"}
 
-	brokers := []string{
-		fmt.Sprintf("%s:9093", broker1),
-		fmt.Sprintf("%s:9094", broker2),
-		fmt.Sprintf("%s:9095", broker3),
-	}
-	fmt.Println(brokers)
 
 	config := sarama.NewConfig()
 	config.Producer.Return.Successes = true
